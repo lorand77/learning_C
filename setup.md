@@ -30,8 +30,12 @@ gcc -o test1.bin test1.c
 ```
 
 ```
-gcc -Wall -Wextra -o test1.bin test1.c && ./test1.bin
+gcc -std=c11 -Wall -Wextra -Wpedantic -Wshadow -Wconversion -o test1.bin test1.c && ./test1.bin
+
+gcc -std=c11 -Wall -Wextra -Wpedantic -Wshadow -Wconversion -g -fsanitize=address,undefined -o test1.bin test1.c && ./test1.bin
+
 ```
+
 
 get assembly:
 ```

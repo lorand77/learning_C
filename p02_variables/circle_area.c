@@ -6,4 +6,3 @@ int main() {
   printf("The area of the circle is: %f.\n", area);
   return 0;
 }
-
