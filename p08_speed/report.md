@@ -14,6 +14,15 @@ have been found, print the Nth prime.
 | `primes.js` | `node primes.js N` |
 | `primes.py` | `python3 primes.py N` |
 
+A second set of programs implements a sieve of Eratosthenes instead — see
+[Replacing the algorithm](#replacing-the-algorithm-sieve-of-eratosthenes) below:
+
+| file | run as |
+|---|---|
+| `primes_sieve.c` | `gcc -O2 -o primes_sieve.bin primes_sieve.c -lm && ./primes_sieve.bin N` |
+| `primes_sieve.js` | `node primes_sieve.js N` |
+| `primes_sieve.py` | `python3 primes_sieve.py N [loop]` |
+
 Each program times *itself* (`clock()`, `process.hrtime`, `time.perf_counter`),
 so the numbers below exclude process startup and C compile time. The Nth prime is
 printed so nothing can be optimised away, and all three print the same value.
@@ -118,17 +127,93 @@ Both of those benchmarks spend nearly all their time inside GMP and PCRE — C
 libraries called through bindings. The "speed of a language" is often the speed
 of whatever native library it calls, not the speed of its own loops.
 
+## Replacing the algorithm: sieve of Eratosthenes
+
+Everything above measures *the same algorithm* in three languages. This section
+changes the algorithm and keeps the languages, which turns out to matter far more
+than the language choice did.
+
+The sieve estimates an upper bound for the Nth prime (`n * (ln n + ln ln n)`,
+valid for n >= 6), allocates one byte per number up to that bound, and crosses
+off multiples starting at `i * i`. No division at all — just array writes.
+
+### Results, N = 500,000 (same target as above)
+
+| | trial division | sieve | speedup |
+|---|---|---|---|
+| C (-O2) | 1.621 s | **0.019 s** | 85x |
+| Node.js | 1.705 s | **0.027 s** | 63x |
+| Python (slice assignment) | 45.364 s | **0.099 s** | 458x |
+| Python (plain loop) | 45.364 s | **0.352 s** | 129x |
+
+Sieve times are best of four runs; they are small enough that a single run is
+noise. Re-running the trial-division programs at the same time gave 1.627 s /
+1.531 s / 44.867 s, so treat those to about ±10%.
+
+### Results, N = 5,000,000
+
+The N = 500,000 sieve runs finish in tens of milliseconds, which is too fast to
+compare properly. Ten times the work (the 5,000,000th prime is 86,028,121, so
+the sieve array is ~91 MB):
+
+| | time | vs C |
+|---|---|---|
+| C (-O2) | 0.678 s | 1.0x |
+| Node.js | 0.694 s | 1.02x |
+| Python (slice assignment) | 1.669 s | 2.5x |
+| Python (plain loop) | 4.844 s | 7.1x |
+
+### What changed
+
+**The algorithm was worth more than the language.** Python-with-a-sieve
+(0.099 s) beats C-with-trial-division (1.621 s) by 16x. A 28x language handicap
+does not survive an 85x algorithmic improvement — which is the usual shape of
+real performance work.
+
+**Python's two variants show where its time goes.** `flags[i*i::i] = b"\x00" * k`
+hands the whole marking pass to C; the plain `for j in range(...)` loop does it
+in the interpreter. Same algorithm, same output, 3.6x apart at N = 500,000. The
+fast variant's remaining Python-level work is only the outer loop up to
+sqrt(limit) — about 9,500 iterations at N = 5,000,000 — which is why it lands
+within 2.5x of C rather than 28x. Both variants find the Nth prime with
+`islice(compress(range(limit + 1), flags), n - 1, None)`, again all in C.
+
+**The languages converge as the array grows.** At N = 500,000 the ~7.6 MB array
+fits in this CPU's 16 MB L3 cache and C runs at full speed, 5.2x ahead of Python
+(slice). At N = 5,000,000 the array is ~91 MB, every language is waiting on main
+memory, and the gap closes to 2.5x — Node reaches parity with C outright. When a
+program is memory-bound, the language stops being the bottleneck.
+
+**And the benchmark now measures something else.** Trial division measured
+interpreter and JIT overhead on a tight arithmetic loop. The sieve mostly
+measures memory bandwidth and how much of the inner loop each language manages
+to run in native code. It is a better prime finder and a worse language
+benchmark.
+
 ## Caveats
 
 - One workload, one machine, no repeat runs or confidence intervals — treat
   the ratios as "roughly this order," not as measurements.
 - Interpreted-language performance is version-sensitive; CPython 3.14 with a
   different build (or a JIT-enabled build) would move the Python column.
-- Nothing here says anything about memory use, concurrency, startup-dominated
-  workloads, or how quickly each version was written.
+- Nothing here says anything about concurrency, startup-dominated workloads, or
+  how quickly each version was written. Memory is only noted for the sieve,
+  which trades one byte per candidate number for its speed — 91 MB at
+  N = 5,000,000, against a few kilobytes for trial division.
 
 ## Reproduce
 
+`run.sh` builds both C programs and runs all versions:
+
 ```sh
 ./run.sh 500000
+```
+
+The sieve alone, at a size where it is measurable:
+
+```sh
+./primes_sieve.bin 5000000
+node primes_sieve.js 5000000
+python3 primes_sieve.py 5000000
+python3 primes_sieve.py 5000000 loop
 ```
