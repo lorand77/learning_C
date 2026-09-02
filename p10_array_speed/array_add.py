@@ -6,9 +6,8 @@ import time
 N = 10000000
 
 # Fill the list with 1, 2, ..., N. This part is not timed.
-arr = [0] * N
-for i in range(N):
-    arr[i] = i + 1
+# range(1, N + 1) counts 1, 2, ..., N, and list() turns it into a real list.
+arr = list(range(1, N + 1))
 
 # This is the loop we care about: add 7 to every element.
 start = time.perf_counter()
