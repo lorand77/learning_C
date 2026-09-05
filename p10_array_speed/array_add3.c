@@ -1,6 +1,8 @@
 // Make an array of N numbers 1, 2, ..., N.
 // Then add 7 to every element, and time only that loop.
 
+// Adds -fsanitize=address,undefined checks (3x runtime)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

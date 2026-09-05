@@ -1,0 +1,699 @@
+	.file	"array_add3.c"
+	.text
+	.section	.rodata
+	.align 32
+.LC0:
+	.string	"array_add3.c"
+	.zero	51
+	.section	.data.rel.local,"aw"
+	.align 32
+	.type	.Lubsan_data1, @object
+	.size	.Lubsan_data1, 16
+.Lubsan_data1:
+	.quad	.LC0
+	.long	18
+	.long	8
+	.zero	48
+	.data
+	.align 32
+	.type	.Lubsan_type0, @object
+	.size	.Lubsan_type0, 10
+.Lubsan_type0:
+	.value	-1
+	.value	0
+	.string	"'int'"
+	.zero	54
+	.section	.data.rel.local
+	.align 32
+	.type	.Lubsan_data2, @object
+	.size	.Lubsan_data2, 32
+.Lubsan_data2:
+	.quad	.LC0
+	.long	18
+	.long	12
+	.quad	.Lubsan_type0
+	.byte	2
+	.byte	1
+	.zero	6
+	.zero	32
+	.align 32
+	.type	.Lubsan_data3, @object
+	.size	.Lubsan_data3, 16
+.Lubsan_data3:
+	.quad	.LC0
+	.long	25
+	.long	17
+	.zero	48
+	.align 32
+	.type	.Lubsan_data4, @object
+	.size	.Lubsan_data4, 32
+.Lubsan_data4:
+	.quad	.LC0
+	.long	25
+	.long	17
+	.quad	.Lubsan_type0
+	.byte	2
+	.byte	0
+	.zero	6
+	.zero	32
+	.align 32
+	.type	.Lubsan_data5, @object
+	.size	.Lubsan_data5, 16
+.Lubsan_data5:
+	.quad	.LC0
+	.long	25
+	.long	8
+	.zero	48
+	.align 32
+	.type	.Lubsan_data6, @object
+	.size	.Lubsan_data6, 32
+.Lubsan_data6:
+	.quad	.LC0
+	.long	25
+	.long	12
+	.quad	.Lubsan_type0
+	.byte	2
+	.byte	1
+	.zero	6
+	.zero	32
+	.data
+	.align 32
+	.type	.Lubsan_type1, @object
+	.size	.Lubsan_type1, 10
+.Lubsan_type1:
+	.value	0
+	.value	11
+	.string	"'int'"
+	.zero	54
+	.section	.data.rel.local
+	.align 32
+	.type	.Lubsan_data7, @object
+	.size	.Lubsan_data7, 24
+.Lubsan_data7:
+	.quad	.LC0
+	.long	18
+	.long	16
+	.quad	.Lubsan_type1
+	.zero	40
+	.align 32
+	.type	.Lubsan_data8, @object
+	.size	.Lubsan_data8, 24
+.Lubsan_data8:
+	.quad	.LC0
+	.long	17
+	.long	27
+	.quad	.Lubsan_type1
+	.zero	40
+	.align 32
+	.type	.Lubsan_data9, @object
+	.size	.Lubsan_data9, 24
+.Lubsan_data9:
+	.quad	.LC0
+	.long	25
+	.long	21
+	.quad	.Lubsan_type1
+	.zero	40
+	.align 32
+	.type	.Lubsan_data10, @object
+	.size	.Lubsan_data10, 24
+.Lubsan_data10:
+	.quad	.LC0
+	.long	24
+	.long	27
+	.quad	.Lubsan_type1
+	.zero	40
+	.data
+	.align 32
+	.type	.Lubsan_type2, @object
+	.size	.Lubsan_type2, 15
+.Lubsan_type2:
+	.value	0
+	.value	13
+	.string	"'long int'"
+	.zero	49
+	.section	.data.rel.local
+	.align 32
+	.type	.Lubsan_data11, @object
+	.size	.Lubsan_data11, 24
+.Lubsan_data11:
+	.quad	.LC0
+	.long	28
+	.long	37
+	.quad	.Lubsan_type2
+	.zero	40
+	.section	.rodata
+	.align 32
+.LC2:
+	.string	"C      : add 7 to %d elements in %.4f s\n"
+	.zero	55
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LASANPC0:
+.LFB0:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	pushq	%r13
+	pushq	%r12
+	pushq	%rbx
+	subq	$40, %rsp
+	.cfi_offset 13, -24
+	.cfi_offset 12, -32
+	.cfi_offset 3, -40
+	movl	$40000000, %edi
+	call	malloc@PLT
+	movq	%rax, -56(%rbp)
+	movl	$0, -64(%rbp)
+	jmp	.L2
+.L13:
+	movl	-64(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rbx
+	movq	-56(%rbp), %rdx
+	leaq	(%rdx,%rbx), %rax
+	movq	%rbx, %rcx
+	testq	%rcx, %rcx
+	js	.L3
+	cmpq	%rdx, %rax
+	jnb	.L4
+.L5:
+	movq	-56(%rbp), %rcx
+	leaq	.Lubsan_data1(%rip), %rdi
+	movq	%rax, %rdx
+	movq	%rcx, %rsi
+	call	__ubsan_handle_pointer_overflow@PLT
+	jmp	.L4
+.L3:
+	cmpq	%rax, %rdx
+	jb	.L5
+.L4:
+	movq	-56(%rbp), %rax
+	addq	%rax, %rbx
+	movl	-64(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, %r12d
+	jno	.L6
+	movl	-64(%rbp), %eax
+	cltq
+	leaq	.Lubsan_data7(%rip), %rcx
+	movl	$1, %edx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	__ubsan_handle_add_overflow@PLT
+.L6:
+	movq	%rbx, %rdx
+	testq	%rbx, %rbx
+	je	.L8
+	movq	%rdx, %rax
+	andl	$3, %eax
+	testq	%rax, %rax
+	je	.L9
+.L8:
+	leaq	.Lubsan_data2(%rip), %rax
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	__ubsan_handle_type_mismatch_v1@PLT
+.L9:
+	movq	%rbx, %rax
+	movq	%rax, %rdx
+	shrq	$3, %rdx
+	addq	$2147450880, %rdx
+	movzbl	(%rdx), %edx
+	testb	%dl, %dl
+	setne	%sil
+	movq	%rax, %rcx
+	andl	$7, %ecx
+	addl	$3, %ecx
+	cmpb	%dl, %cl
+	setge	%dl
+	andl	%esi, %edx
+	testb	%dl, %dl
+	je	.L10
+	movq	%rax, %rdi
+	call	__asan_report_store4@PLT
+.L10:
+	movl	%r12d, (%rbx)
+	movl	-64(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, %ebx
+	jno	.L11
+	movl	-64(%rbp), %eax
+	cltq
+	leaq	.Lubsan_data8(%rip), %rcx
+	movl	$1, %edx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	__ubsan_handle_add_overflow@PLT
+.L11:
+	movl	%ebx, -64(%rbp)
+.L2:
+	cmpl	$9999999, -64(%rbp)
+	jle	.L13
+	call	clock@PLT
+	movq	%rax, -48(%rbp)
+	movl	$0, -60(%rbp)
+	jmp	.L14
+.L31:
+	movl	-60(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rbx
+	movq	-56(%rbp), %rdx
+	leaq	(%rdx,%rbx), %rax
+	movq	%rbx, %rcx
+	testq	%rcx, %rcx
+	js	.L15
+	cmpq	%rdx, %rax
+	jnb	.L16
+.L17:
+	movq	-56(%rbp), %rcx
+	leaq	.Lubsan_data3(%rip), %rdi
+	movq	%rax, %rdx
+	movq	%rcx, %rsi
+	call	__ubsan_handle_pointer_overflow@PLT
+	jmp	.L16
+.L15:
+	cmpq	%rax, %rdx
+	jb	.L17
+.L16:
+	movq	-56(%rbp), %rax
+	addq	%rax, %rbx
+	movq	%rbx, %rdx
+	testq	%rbx, %rbx
+	je	.L18
+	movq	%rdx, %rax
+	andl	$3, %eax
+	testq	%rax, %rax
+	je	.L19
+.L18:
+	leaq	.Lubsan_data4(%rip), %rax
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	__ubsan_handle_type_mismatch_v1@PLT
+.L19:
+	movq	%rbx, %rax
+	movq	%rax, %rdx
+	shrq	$3, %rdx
+	addq	$2147450880, %rdx
+	movzbl	(%rdx), %edx
+	testb	%dl, %dl
+	setne	%sil
+	movq	%rax, %rcx
+	andl	$7, %ecx
+	addl	$3, %ecx
+	cmpb	%dl, %cl
+	setge	%dl
+	andl	%esi, %edx
+	testb	%dl, %dl
+	je	.L20
+	movq	%rax, %rdi
+	call	__asan_report_load4@PLT
+.L20:
+	movl	(%rbx), %r12d
+	movl	-60(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rbx
+	movq	-56(%rbp), %rdx
+	leaq	(%rdx,%rbx), %rax
+	movq	%rbx, %rcx
+	testq	%rcx, %rcx
+	js	.L21
+	cmpq	%rdx, %rax
+	jnb	.L22
+.L23:
+	movq	-56(%rbp), %rcx
+	leaq	.Lubsan_data5(%rip), %rdi
+	movq	%rax, %rdx
+	movq	%rcx, %rsi
+	call	__ubsan_handle_pointer_overflow@PLT
+	jmp	.L22
+.L21:
+	cmpq	%rax, %rdx
+	jb	.L23
+.L22:
+	movq	-56(%rbp), %rax
+	addq	%rax, %rbx
+	movl	%r12d, %r13d
+	addl	$7, %r13d
+	jno	.L24
+	movslq	%r12d, %rax
+	leaq	.Lubsan_data9(%rip), %rcx
+	movl	$7, %edx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	__ubsan_handle_add_overflow@PLT
+.L24:
+	movl	%r13d, %r12d
+	movq	%rbx, %rdx
+	testq	%rbx, %rbx
+	je	.L26
+	movq	%rdx, %rax
+	andl	$3, %eax
+	testq	%rax, %rax
+	je	.L27
+.L26:
+	leaq	.Lubsan_data6(%rip), %rax
+	movq	%rdx, %rsi
+	movq	%rax, %rdi
+	call	__ubsan_handle_type_mismatch_v1@PLT
+.L27:
+	movq	%rbx, %rax
+	movq	%rax, %rdx
+	shrq	$3, %rdx
+	addq	$2147450880, %rdx
+	movzbl	(%rdx), %edx
+	testb	%dl, %dl
+	setne	%sil
+	movq	%rax, %rcx
+	andl	$7, %ecx
+	addl	$3, %ecx
+	cmpb	%dl, %cl
+	setge	%dl
+	andl	%esi, %edx
+	testb	%dl, %dl
+	je	.L28
+	movq	%rax, %rdi
+	call	__asan_report_store4@PLT
+.L28:
+	movl	%r12d, (%rbx)
+	movl	-60(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, %ebx
+	jno	.L29
+	movl	-60(%rbp), %eax
+	cltq
+	leaq	.Lubsan_data10(%rip), %rcx
+	movl	$1, %edx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	__ubsan_handle_add_overflow@PLT
+.L29:
+	movl	%ebx, -60(%rbp)
+.L14:
+	cmpl	$9999999, -60(%rbp)
+	jle	.L31
+	call	clock@PLT
+	movq	%rax, %rbx
+	subq	-48(%rbp), %rbx
+	jno	.L32
+	movq	-48(%rbp), %rdx
+	leaq	.Lubsan_data11(%rip), %rcx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	__ubsan_handle_sub_overflow@PLT
+.L32:
+	movq	%rbx, %rax
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%rax, %xmm0
+	movsd	.LC1(%rip), %xmm1
+	divsd	%xmm1, %xmm0
+	movsd	%xmm0, -40(%rbp)
+	movq	-40(%rbp), %rax
+	leaq	.LC2(%rip), %rdx
+	movq	%rax, %xmm0
+	movl	$10000000, %esi
+	movq	%rdx, %rdi
+	movl	$1, %eax
+	call	printf@PLT
+	movq	-56(%rbp), %rax
+	movq	%rax, %rdi
+	call	free@PLT
+	movl	$0, %eax
+	addq	$40, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	main, .-main
+	.section	.data.rel.local
+	.align 32
+	.type	.Lubsan_data0, @object
+	.size	.Lubsan_data0, 40
+.Lubsan_data0:
+	.quad	.LC0
+	.long	30
+	.long	3
+	.quad	0
+	.long	0
+	.long	0
+	.long	1
+	.zero	4
+	.zero	56
+	.section	.rodata
+.LC3:
+	.string	"*.Lubsan_data11"
+.LC4:
+	.string	"*.Lubsan_type2"
+.LC5:
+	.string	"*.Lubsan_data10"
+.LC6:
+	.string	"*.Lubsan_data9"
+.LC7:
+	.string	"*.Lubsan_data8"
+.LC8:
+	.string	"*.Lubsan_data7"
+.LC9:
+	.string	"*.Lubsan_type1"
+.LC10:
+	.string	"*.Lubsan_data6"
+.LC11:
+	.string	"*.Lubsan_data5"
+.LC12:
+	.string	"*.Lubsan_data4"
+.LC13:
+	.string	"*.Lubsan_data3"
+.LC14:
+	.string	"*.Lubsan_data2"
+.LC15:
+	.string	"*.Lubsan_type0"
+.LC16:
+	.string	"*.Lubsan_data1"
+.LC17:
+	.string	"*.Lubsan_data0"
+.LC18:
+	.string	"*.LC0"
+.LC19:
+	.string	"*.LC2"
+	.section	.data.rel.local
+	.align 32
+	.type	.LASAN0, @object
+	.size	.LASAN0, 1088
+.LASAN0:
+	.quad	.Lubsan_data11
+	.quad	24
+	.quad	64
+	.quad	.LC3
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_type2
+	.quad	15
+	.quad	64
+	.quad	.LC4
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data10
+	.quad	24
+	.quad	64
+	.quad	.LC5
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data9
+	.quad	24
+	.quad	64
+	.quad	.LC6
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data8
+	.quad	24
+	.quad	64
+	.quad	.LC7
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data7
+	.quad	24
+	.quad	64
+	.quad	.LC8
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_type1
+	.quad	10
+	.quad	64
+	.quad	.LC9
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data6
+	.quad	32
+	.quad	64
+	.quad	.LC10
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data5
+	.quad	16
+	.quad	64
+	.quad	.LC11
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data4
+	.quad	32
+	.quad	64
+	.quad	.LC12
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data3
+	.quad	16
+	.quad	64
+	.quad	.LC13
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data2
+	.quad	32
+	.quad	64
+	.quad	.LC14
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_type0
+	.quad	10
+	.quad	64
+	.quad	.LC15
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data1
+	.quad	16
+	.quad	64
+	.quad	.LC16
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.Lubsan_data0
+	.quad	40
+	.quad	96
+	.quad	.LC17
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.LC0
+	.quad	13
+	.quad	64
+	.quad	.LC18
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.quad	.LC2
+	.quad	41
+	.quad	96
+	.quad	.LC19
+	.quad	.LC0
+	.quad	0
+	.quad	0
+	.quad	0
+	.text
+	.type	_sub_D_00099_0, @function
+_sub_D_00099_0:
+.LFB1:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	leaq	.LASAN0(%rip), %rax
+	movl	$17, %esi
+	movq	%rax, %rdi
+	call	__asan_unregister_globals@PLT
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1:
+	.size	_sub_D_00099_0, .-_sub_D_00099_0
+	.section	.fini_array.00099,"aw"
+	.align 8
+	.quad	_sub_D_00099_0
+	.text
+	.type	_sub_I_00099_1, @function
+_sub_I_00099_1:
+.LFB2:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	call	__asan_init@PLT
+	call	__asan_version_mismatch_check_v8@PLT
+	leaq	.LASAN0(%rip), %rax
+	movl	$17, %esi
+	movq	%rax, %rdi
+	call	__asan_register_globals@PLT
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2:
+	.size	_sub_I_00099_1, .-_sub_I_00099_1
+	.section	.init_array.00099,"aw"
+	.align 8
+	.quad	_sub_I_00099_1
+	.section	.rodata
+	.align 8
+.LC1:
+	.long	0
+	.long	1093567616
+	.ident	"GCC: (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:

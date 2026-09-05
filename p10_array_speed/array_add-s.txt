@@ -1,0 +1,106 @@
+	.file	"array_add.c"
+	.text
+	.section	.rodata
+	.align 8
+.LC1:
+	.string	"C      : add 7 to %d elements in %.4f s\n"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$32, %rsp
+	movl	$40000000, %edi
+	call	malloc@PLT
+	movq	%rax, -24(%rbp)
+	movl	$0, -32(%rbp)
+	jmp	.L2
+.L3:
+	movl	-32(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rdx
+	movq	-24(%rbp), %rax
+	addq	%rdx, %rax
+	movl	-32(%rbp), %edx
+	addl	$1, %edx
+	movl	%edx, (%rax)
+	addl	$1, -32(%rbp)
+.L2:
+	cmpl	$9999999, -32(%rbp)
+	jle	.L3
+	call	clock@PLT
+	movq	%rax, -16(%rbp)
+	movl	$0, -28(%rbp)
+	jmp	.L4
+.L5:
+	movl	-28(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rdx
+	movq	-24(%rbp), %rax
+	addq	%rdx, %rax
+	movl	(%rax), %edx
+	movl	-28(%rbp), %eax
+	cltq
+	leaq	0(,%rax,4), %rcx
+	movq	-24(%rbp), %rax
+	addq	%rcx, %rax
+	addl	$7, %edx
+	movl	%edx, (%rax)
+	addl	$1, -28(%rbp)
+.L4:
+	cmpl	$9999999, -28(%rbp)
+	jle	.L5
+	call	clock@PLT
+	subq	-16(%rbp), %rax
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%rax, %xmm0
+	movsd	.LC0(%rip), %xmm1
+	divsd	%xmm1, %xmm0
+	movsd	%xmm0, -8(%rbp)
+	movq	-8(%rbp), %rax
+	leaq	.LC1(%rip), %rdx
+	movq	%rax, %xmm0
+	movl	$10000000, %esi
+	movq	%rdx, %rdi
+	movl	$1, %eax
+	call	printf@PLT
+	movq	-24(%rbp), %rax
+	movq	%rax, %rdi
+	call	free@PLT
+	movl	$0, %eax
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	main, .-main
+	.section	.rodata
+	.align 8
+.LC0:
+	.long	0
+	.long	1093567616
+	.ident	"GCC: (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:

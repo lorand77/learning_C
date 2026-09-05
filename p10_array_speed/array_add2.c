@@ -1,6 +1,8 @@
 // Make an array of N numbers 1, 2, ..., N.
 // Then add 7 to every element, and time only that loop.
 
+// This version checks for out-of-bounds manually (+30% runtime)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -22,6 +24,11 @@ int main() {
   clock_t start = clock();
 
   for (int i = 0; i < N; i++) {
+    if (i<0 || i>=N) {
+      // printf("Index out of bounds: %d\n", i);
+      // exit(1);
+      break; 
+    }
     arr[i] = arr[i] + 7;
   }
 
