@@ -8,5 +8,7 @@ echo -n "gcc -O0 -> "
 ./array_add_O0.bin
 echo -n "gcc -O2 -> "
 ./array_add_O2.bin
+echo -n "node    -> "
+node array_add.js
 echo -n "python3 -> "
 python3 array_add.py
