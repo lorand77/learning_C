@@ -1,0 +1,53 @@
+region   what                          address  explanation
+-------- ------------------ -------------------  -----------
+  .text    a_function()           0x648ce64c9336  machine code; r-x, executable but NOT writable
+  .text    main()                 0x648ce64c941c  also code -- functions are not variables, they have no storage
+  .rodata  "hello" literal        0x648ce64ca00c  string literals are read-only; modifying one is undefined behaviour
+  .rodata  g_const                0x648ce64ca008  const global; the page itself is mapped read-only
+  .data    g_initialized          0x648ce64cc010  nonzero initializer, so the value is stored inside the binary
+  .data    s_initialized          0x648ce64cc014  static local: visible only in main(), but lives for the whole run
+  .bss     g_zero                 0x648ce64cc080  zero-initialized, so the file stores only a size, not the bytes
+  .bss     s_zero                 0x648ce64ce5a8  static local, also zeroed by the kernel before main() starts
+  .bss     g_buffer[8192]         0x648ce64cc0a0  8 KB of zeros that add nothing to the on-disk binary size
+  heap     malloc(64)             0x648d04b14010  small request: carved out of the brk heap, just above the globals
+  heap     copy of a string       0x648d04b14060  the literal is in .rodata; this writable copy is on the heap
+  mmap     malloc(16 MB)          0x71ef96d88010  over ~128 KB glibc skips the heap and mmaps a fresh region
+  libc     printf()               0x71ef97df0300  not in your binary at all: shared library, mapped in at startup
+  stack    local                  0x7ffc16d5791c  automatic variable, gone the moment main() returns
+  stack    local_arr[64]          0x7ffc16d57960  arrays are laid out in the frame just like scalars
+  stack    ptr_to_local           0x7ffc16d57920  the POINTER is on the stack, and so is what it points at
+  stack    argc                   0x7ffc16d5790c  parameters are part of the frame too
+  stack    argv[0] string         0x7ffc16d591a6  argv/environ strings sit at the very top of the stack
+  stack    local @ depth 1        0x7ffc16d578e4  one frame further down -- note the address DROPS
+  stack    local @ depth 2        0x7ffc16d578b4  one frame further down -- note the address DROPS
+  stack    local @ depth 3        0x7ffc16d57884  one frame further down -- note the address DROPS
+
+sorted low -> high (this is the actual memory map):
+
+      0x648ce64c9336  .text    a_function()
+      0x648ce64c941c  .text    main()
+      0x648ce64ca008  .rodata  g_const
+      0x648ce64ca00c  .rodata  "hello" literal
+      0x648ce64cc010  .data    g_initialized
+      0x648ce64cc014  .data    s_initialized
+      0x648ce64cc080  .bss     g_zero
+      0x648ce64cc0a0  .bss     g_buffer[8192]
+      0x648ce64ce5a8  .bss     s_zero
+                486 MiB unmapped gap
+      0x648d04b14010  heap     malloc(64)
+      0x648d04b14060  heap     copy of a string
+                 13 TiB unmapped gap
+      0x71ef96d88010  mmap     malloc(16 MB)
+                 16 MiB unmapped gap
+      0x71ef97df0300  libc     printf()
+                 14 TiB unmapped gap
+      0x7ffc16d57884  stack    local @ depth 3
+      0x7ffc16d578b4  stack    local @ depth 2
+      0x7ffc16d578e4  stack    local @ depth 1
+      0x7ffc16d5790c  stack    argc
+      0x7ffc16d5791c  stack    local
+      0x7ffc16d57920  stack    ptr_to_local
+      0x7ffc16d57960  stack    local_arr[64]
+      0x7ffc16d591a6  stack    argv[0] string
+
+Run it again: every address moves (ASLR), but the order does not.
