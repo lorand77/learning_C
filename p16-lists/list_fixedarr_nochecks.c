@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #define CAP 16
 
 int numbers[CAP];
@@ -37,8 +39,16 @@ int main() {
   append(40);
 
   insert(0, 15);
+  //insert(-1000, 15);
+  //insert(10, 15);
+ 
 
-  delete_at(0);
+  delete_at(1);
+
+  for (int i = 0; i < len; i++) {
+    printf("%d ", numbers[i]);
+  }
+  printf("\n");
 
   return 0;
 }
