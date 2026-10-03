@@ -3,7 +3,7 @@
 #include <time.h>
 #include <gmp.h>
 
-#define N 100000UL
+#define N 50000UL
 
 static double now(void) {
     struct timespec ts;

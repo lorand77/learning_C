@@ -1,7 +1,7 @@
 import time
 import sys
 
-N = 100000
+N = 50000
 sys.setrecursionlimit(N + 10)
 
 def factorial_with_recursion(n):

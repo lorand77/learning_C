@@ -1,4 +1,4 @@
-const N = 100000n;
+const N = 50000n;
 
 function factorial(n) {
     let f = 1n;

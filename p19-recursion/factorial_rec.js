@@ -1,8 +1,8 @@
 const { Worker, isMainThread } = require("node:worker_threads");
 
-const N = 100000n;
+const N = 50000n;
 
-// 100000 nested calls do not fit in the main thread's stack,
+// 50000 nested calls do not fit in the main thread's stack,
 // so the work runs in a worker thread that gets a bigger one.
 if (isMainThread) {
     new Worker(__filename, { resourceLimits: { stackSizeMb: 256 } });

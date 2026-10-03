@@ -1,6 +1,6 @@
 import time
 
-N = 100000
+N = 50000
 
 def factorial(n):
     assert isinstance(n, int) and n >= 0, "n must be a non-negative integer"
